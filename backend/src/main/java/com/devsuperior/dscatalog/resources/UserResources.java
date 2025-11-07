@@ -36,7 +36,13 @@ public class UserResources {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
+    @GetMapping(value = "/me")
+    public ResponseEntity<UserDTO> findMe() {
+        UserDTO dto = service.findMe();
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.insert(dto);
